@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>白石的深夜食堂 · 春の献礼</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --ink: #1a1410;
+    --ink-light: #2a221d;
+    --gold: #c9a84c;
+    --gold-light: #f0d878;
+    --gold-glow: #ffd700;
+    --warm: #d4845a;
+    --paper: #f5f0e8;
+    --text: #f0e6d3;
+    --text-dim: #a09080;
+    --lantern: #ff6b35;
+    --red: #c0392b;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--ink);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ============ BG ============ */
+  .bg-layer {
+    position: fixed; inset: 0;
+    background: linear-gradient(170deg, #0d0a07 0%, #1a1410 30%, #231c16 60%, #1a1410 100%);
+    z-index: -2;
+  }
+  .bg-pattern {
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(212,132,90,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(192,57,43,0.04) 0%, transparent 50%);
+    z-index: -1;
+  }
+
+  /* ============ TOP BAR ============ */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 100;
+    background: linear-gradient(180deg, rgba(13,10,7,0.95) 0%, transparent 100%);
+  }
+  .top-bar .store-badge {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .top-bar .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .top-bar .store-name {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .top-bar .store-name small {
+    display: block;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 300;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+  .top-bar .draw-count {
+    font-size: 12px;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.06);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 100px 20px 30px;
+    text-align: center;
+    position: relative;
+  }
+  .hero .lantern {
+    width: 54px; height: 72px;
+    margin: 0 auto 18px;
+    background: radial-gradient(ellipse at 50% 30%, var(--lantern) 0%, #d4542a 60%, #8a2a0a 100%);
+    border-radius: 27px 27px 18px 18px;
+    position: relative;
+    animation: lantern-sway 3s ease-in-out infinite;
+    box-shadow: 0 0 40px rgba(255,107,53,0.3), 0 0 80px rgba(255,107,53,0.1);
+  }
+  .hero .lantern::before {
+    content: '';
+    position: absolute; top: -5px; left: 50%;
+    transform: translateX(-50%);
+    width: 3px; height: 5px;
+    background: #333; border-radius: 2px;
+  }
+  .hero .lantern::after {
+    content: '食';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  @keyframes lantern-sway {
+    0%, 100% { transform: rotate(-1deg); }
+    50% { transform: rotate(1deg); }
+  }
+
+  .hero h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: 6px;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(201,168,76,0.2);
+    margin-bottom: 6px;
+  }
+  .hero p {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+  }
+  .hero .divider {
+    width: 50px; height: 2px;
+    margin: 14px auto 0;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  /* ============ MAIN CARD ============ */
+  .main-card {
+    margin: 8px 16px 16px;
+    background: linear-gradient(145deg, rgba(42,34,29,0.9), rgba(26,20,16,0.95));
+    border: 1px solid rgba(201,168,76,0.12);
+    border-radius: 20px;
+    padding: 24px 18px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+  .main-card::before {
+    content: '';
+    position: absolute; top: 0; left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .main-card .subtitle {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 4px;
+    margin-bottom: 2px;
+  }
+  .main-card .title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 18px;
+    letter-spacing: 2px;
+  }
+  .main-card .title .highlight { color: var(--gold); }
+
+  /* ============ PRIZE LIST ============ */
+  .prize-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 20px;
+  }
+  .prize-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: all 0.3s;
+    text-align: left;
+  }
+  .prize-item .icon {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .prize-item .icon.gold { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .prize-item .icon.silver { background: rgba(180,180,180,0.1); color: #bbb; }
+  .prize-item .icon.warm { background: rgba(212,132,90,0.12); color: var(--warm); }
+  .prize-item .icon.tea { background: rgba(160,200,120,0.1); color: #8cb46c; }
+
+  .prize-item .info { flex: 1; }
+  .prize-item .info .name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .prize-item .info .name .badge {
+    display: inline-block;
+    font-size: 9px;
+    background: var(--red);
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 8px;
+    margin-left: 4px;
+    vertical-align: middle;
+    font-weight: 400;
+  }
+  .prize-item .info .desc {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 1px;
+  }
+  .prize-item .rate {
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 500;
+    white-space: nowrap;
+    text-align: right;
+  }
+  .prize-item.special {
+    background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+    border-color: rgba(201,168,76,0.2);
+  }
+
+  /* ============ DRAW BUTTON ============ */
+  .draw-area {
+    position: relative;
+    margin-top: 2px;
+  }
+  .draw-btn {
+    width: 170px; height: 170px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--ink-light), #3a2d24, var(--ink-light));
+    border: 3px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0 0 30px rgba(201,168,76,0.1), inset 0 0 30px rgba(0,0,0,0.3);
+  }
+  .draw-btn:active { transform: scale(0.95); }
+  .draw-btn .emoji-big {
+    font-size: 44px;
+    margin-bottom: 4px;
+    transition: all 0.3s;
+  }
+  .draw-btn .text {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--gold);
+    letter-spacing: 4px;
+  }
+  .draw-btn .sub-text {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 3px;
+    letter-spacing: 2px;
+  }
+  .draw-btn .ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.12);
+    animation: ring-pulse 2s ease-in-out infinite;
+  }
+  .draw-btn .ring:nth-child(2) { inset: -10px; animation-delay: 0.5s; }
+  .draw-btn .ring:nth-child(3) { inset: -15px; animation-delay: 1s; }
+  @keyframes ring-pulse {
+    0%, 100% { border-color: rgba(201,168,76,0.08); transform: scale(1); }
+    50% { border-color: rgba(201,168,76,0.2); transform: scale(1.02); }
+  }
+  .draw-btn .sparkle {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: sparkle 1.5s ease-in-out infinite;
+  }
+  .draw-btn .sparkle:nth-child(4) { top: 15%; left: 15%; animation-delay: 0s; }
+  .draw-btn .sparkle:nth-child(5) { top: 20%; right: 18%; animation-delay: 0.4s; }
+  .draw-btn .sparkle:nth-child(6) { bottom: 22%; left: 20%; animation-delay: 0.8s; }
+  .draw-btn .sparkle:nth-child(7) { bottom: 18%; right: 22%; animation-delay: 1.2s; }
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+  .draw-btn.loading {
+    animation: draw-pulse 0.6s ease-in-out 4;
+    pointer-events: none;
+  }
+  @keyframes draw-pulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(201,168,76,0.1); }
+    50% { box-shadow: 0 0 60px rgba(201,168,76,0.4), 0 0 100px rgba(201,168,76,0.1); }
+  }
+  .draw-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .draw-remain {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .draw-remain strong {
+    color: var(--gold);
+    font-size: 15px;
+  }
+
+  /* ============ RESULT OVERLAY ============ */
+  .result-overlay {
+    position: fixed; inset: 0;
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+  }
+  .result-overlay.show { display: flex; }
+
+  .result-card {
+    width: calc(100% - 60px);
+    max-width: 320px;
+    background: linear-gradient(145deg, #2a221d, #1a1410);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 24px;
+    padding: 32px 22px 24px;
+    text-align: center;
+    position: relative;
+    animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .result-card.win {
+    border-color: var(--gold);
+    box-shadow: 0 0 60px rgba(201,168,76,0.2), inset 0 0 30px rgba(201,168,76,0.05);
+  }
+  .result-card .ribbon {
+    position: absolute; top: -12px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold); color: var(--ink);
+    font-size: 11px; font-weight: 700;
+    padding: 4px 20px; border-radius: 20px;
+    letter-spacing: 3px;
+    display: none;
+    white-space: nowrap;
+  }
+  .result-card.win .ribbon { display: block; }
+
+  .result-card .big-icon { font-size: 52px; margin-bottom: 10px; }
+  .result-card .result-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .result-card .result-title.gold {
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+  .result-card .result-prize {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .result-card .result-prize strong { color: var(--gold); }
+  .result-card .result-msg {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .result-card .result-msg.highlight {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+  .result-card .close-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text);
+    padding: 10px 40px;
+    border-radius: 24px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  .result-card .close-btn:active { background: rgba(255,255,255,0.1); }
+  .result-card.win .close-btn {
+    background: rgba(201,168,76,0.15);
+    border-color: rgba(201,168,76,0.3);
+    color: var(--gold);
+  }
+  .result-card .qr-scan-hint {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .result-card .qr-scan-hint p {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .result-card .qr-scan-hint img {
+    width: 80px; height: 80px;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* ============ CONFETTI ============ */
+  .confetti-container {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 201;
+    overflow: hidden;
+  }
+  .confetti {
+    position: absolute;
+    width: 6px; height: 6px;
+    opacity: 0;
+    animation: confetti-fall 3s ease-in forwards;
+  }
+  @keyframes confetti-fall {
+    0% { opacity: 1; transform: translateY(-10px) rotate(0deg) scale(1); }
+    100% { opacity: 0; transform: translateY(100vh) rotate(720deg) scale(0.5); }
+  }
+
+  /* ============ QR FOOTER ============ */
+  .qr-footer {
+    margin: 4px 16px 16px;
+    padding: 14px 18px;
+    background: rgba(42,34,29,0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .qr-footer img {
+    width: 60px; height: 60px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .qr-footer .qr-text {
+    flex: 1;
+    text-align: left;
+  }
+  .qr-footer .qr-text .label {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+  .qr-footer .qr-text .action {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 2px;
+  }
+  .qr-footer .qr-text .action span {
+    color: var(--gold);
+  }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    padding: 16px 20px 24px;
+    text-align: center;
+  }
+  .footer p {
+    font-size: 10px;
+    color: var(--text-dim);
+    opacity: 0.4;
+    letter-spacing: 1px;
+  }
+  .footer .store-addr {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    opacity: 0.6;
+  }
+
+  /* ============ ANIMATIONS ============ */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.8) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @media (max-width: 360px) {
+    .hero h1 { font-size: 24px; }
+    .draw-btn { width: 150px; height: 150px; }
+    .draw-btn .emoji-big { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BG -->
+<div class="bg-layer"></div>
+<div class="bg-pattern"></div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="store-badge">
+    <div class="logo-mark">白</div>
+    <div class="store-name">
+      白石的深夜食堂
+      <small>贵阳万象城店</small>
+    </div>
+  </div>
+  <div class="draw-count" id="drawCountDisplay">今日余 3 次</div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="lantern"></div>
+  <h1>春の献礼</h1>
+  <p>— SPRING BLESSING —</p>
+  <div class="divider"></div>
+</div>
+
+<!-- MAIN CARD -->
+<div class="main-card">
+  <div class="subtitle">— 幸 运 转 盘 —</div>
+  <div class="title">春日の<span class="highlight">福</span>利</div>
+
+  <div class="prize-list">
+    <div class="prize-item special">
+      <div class="icon gold">👑</div>
+      <div class="info">
+        <div class="name">🦞 本日霸王餐 <span class="badge">免单</span></div>
+        <div class="desc">全单免单 · 每日仅限 <strong id="kingDailyLeft">1</strong> 份</div>
+      </div>
+      <div class="rate">仅1份</div>
+    </div>
+    <div class="prize-item">
+      <div class="icon warm">🍚</div>
+      <div class="info">
+        <div class="name">温泉蛋牛肉饭</div>
+        <div class="desc">招牌必点 · 滑嫩温泉蛋 + 秘制肥牛</div>
+      </div>
+      <div class="rate">4%</div>
+    </div>
+    <div class="prize-item">
+      <div class="icon gold">🍣</div>
+      <div class="info">
+        <div class="name">鳗鱼饭</div>
+        <div class="desc">蒲烧鳗鱼 · 炭火慢烤 · 酱香四溢</div>
+      </div>
+      <div class="rate">3%</div>
+    </div>
+    <div class="prize-item">
+      <div class="icon silver">🦐</div>
+      <div class="info">
+        <div class="name">芝士芒果虾</div>
+        <div class="desc">创意卷物 · 芒果清甜 × 芝士浓郁</div>
+      </div>
+      <div class="rate">3%</div>
+    </div>
+    <div class="prize-item">
+      <div class="icon tea">🥤</div>
+      <div class="info">
+        <div class="name">饮品兑换券</div>
+        <div class="desc">可尔必思 / 波子汽水 / 抹茶</div>
+      </div>
+      <div class="rate">安慰奖</div>
+    </div>
+  </div>
+
+  <div class="draw-area">
+    <div class="draw-btn" id="drawBtn">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+      <div class="emoji-big">🎰</div>
+      <div class="text">抽一签</div>
+      <div class="sub-text">— おみくじ —</div>
+    </div>
+  </div>
+  <div class="draw-remain">
+    今日还剩 <strong id="dailyRemain">3</strong> 次抽奖机会
+  </div>
+</div>
+
+<!-- QR FOOTER -->
+<div class="qr-footer">
+  <img src="qr-order.jpg" alt="扫码点餐" id="qrCodeImg" onerror="this.style.display='none'">
+  <div class="qr-text">
+    <div class="label">📱 扫码点餐</div>
+    <div class="action">更多美味，尽在 <span>白石的深夜食堂</span></div>
+  </div>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-card" id="resultCard">
+    <div class="ribbon">🎊 恭 喜 中 奖 🎊</div>
+    <div class="big-icon" id="resultIcon">🎉</div>
+    <div class="result-title" id="resultTitle">谢谢参与</div>
+    <div class="result-prize" id="resultPrize"></div>
+    <div class="result-msg" id="resultMsg">下次一定好运！</div>
+    <button class="close-btn" onclick="closeResult()">知道了</button>
+    <div class="qr-scan-hint" id="qrScanHint" style="display:none;">
+      <p>— 扫码点餐 —</p>
+      <img src="qr-order.jpg" alt="扫码点餐" onerror="this.style.display='none'">
+    </div>
+  </div>
+</div>
+
+<!-- CONFETTI -->
+<div class="confetti-container" id="confettiBox"></div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="store-addr">📍 贵阳市 · 万象城 · L4 · 白石的深夜食堂</div>
+  <p>最终解释权归本店所有 · 春日献礼 好运常伴</p>
+</div>
+
+<script>
+// ======== CONFIG ========
+const DAILY_LIMIT = 3;
+const KING_PRIZE_DAILY = 1;
+
+const WIN_PRIZES = [
+  { id: 'king',  name: '👑 本日霸王餐',       desc: '全单免单！',        weight: 1 },
+  { id: 'beef',  name: '🍚 温泉蛋牛肉饭',      desc: '招牌必点',         weight: 4 },
+  { id: 'eel',   name: '🍣 鳗鱼饭',            desc: '蒲烧鳗鱼',         weight: 3 },
+  { id: 'shrimp',name: '🦐 芝士芒果虾',        desc: '创意卷物',         weight: 3 },
+];
+// Win rate = 10% (4+3+3+1=11 weight for wins, lose=89... no wait)
+// Total: win=11, lose=89 → 11% win rate. Let me adjust.
+// king=1, beef=3, eel=3, shrimp=3 → win total=10, lose=90 → 10% ✓
+
+// ======== STATE ========
+const STORAGE_KEY = 'baishi_lottery_state';
+let state = loadState();
+
+function getToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (s.date === getToday()) return s;
+    }
+  } catch(e) {}
+  return { date: getToday(), draws: 0, kingClaimed: false };
+}
+
+function saveState() {
+  state.date = getToday();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function getRemaining() {
+  return Math.max(0, DAILY_LIMIT - state.draws);
+}
+
+function getKingAvailable() {
+  return !state.kingClaimed;
+}
+
+function updateUI() {
+  document.getElementById('dailyRemain').textContent = getRemaining();
+  document.getElementById('drawCountDisplay').textContent = `今日余 ${getRemaining()} 次`;
+  const btn = document.getElementById('drawBtn');
+  if (getRemaining() <= 0) {
+    btn.classList.add('disabled');
+  } else {
+    btn.classList.remove('disabled');
+  }
+}
+
+// ======== DRAW LOGIC ========
+function doDraw() {
+  if (getRemaining() <= 0) return;
+
+  const btn = document.getElementById('drawBtn');
+  btn.classList.add('loading');
+
+  // Dramatic delay
+  setTimeout(() => {
+    btn.classList.remove('loading');
+
+    if (state.date !== getToday()) {
+      state = { date: getToday(), draws: 0, kingClaimed: false };
+    }
+
+    state.draws++;
+    saveState();
+
+    const winRoll = Math.random() * 100;
+    let result;
+
+    if (winRoll < 10) {
+      // Won! Weight pick among win prizes
+      const available = WIN_PRIZES.filter(p => p.id !== 'king' || getKingAvailable());
+      const totalW = available.reduce((a, p) => a + p.weight, 0);
+      let r = Math.random() * totalW;
+      let picked = available[0];
+      for (const p of available) {
+        r -= p.weight;
+        if (r <= 0) { picked = p; break; }
+      }
+
+      if (picked.id === 'king') {
+        state.kingClaimed = true;
+        saveState();
+        result = { win: true, prize: picked, isKing: true };
+      } else {
+        result = { win: true, prize: picked, isKing: false };
+      }
+    } else {
+      result = { win: false, prize: { name: '🎁 饮品兑换券', desc: '可尔必思 / 波子汽水 / 抹茶' }, isKing: false };
+    }
+
+    updateUI();
+    showResult(result);
+  }, 1500);
+}
+
+// ======== RESULT DISPLAY ========
+function showResult(r) {
+  const overlay = document.getElementById('resultOverlay');
+  const card = document.getElementById('resultCard');
+  const icon = document.getElementById('resultIcon');
+  const title = document.getElementById('resultTitle');
+  const prize = document.getElementById('resultPrize');
+  const msg = document.getElementById('resultMsg');
+  const hint = document.getElementById('qrScanHint');
+
+  card.className = 'result-card';
+  hint.style.display = 'none';
+
+  if (r.win && r.isKing) {
+    card.classList.add('win');
+    icon.textContent = '👑';
+    title.textContent = '🎊 霸王餐！';
+    title.className = 'result-title gold';
+    prize.innerHTML = `<strong>${r.prize.name}</strong> · ${r.prize.desc}`;
+    msg.textContent = '请到前台出示本页面，今日全单免单！🍱';
+    msg.className = 'result-msg highlight';
+    hint.style.display = 'block';
+    fireConfetti();
+  } else if (r.win) {
+    card.classList.add('win');
+    icon.textContent = '🎉';
+    title.textContent = '恭喜中奖！';
+    title.className = 'result-title gold';
+    prize.innerHTML = `<strong>${r.prize.name}</strong> · ${r.prize.desc}`;
+    msg.textContent = '请到前台出示本页面兑换 🎊';
+    msg.className = 'result-msg highlight';
+    hint.style.display = 'block';
+    fireConfetti();
+  } else {
+    icon.textContent = '🍵';
+    title.textContent = '残念～';
+    title.className = 'result-title';
+    prize.innerHTML = `${r.prize.name} · ${r.prize.desc}`;
+    msg.textContent = '下次一定！今夜のご飯は美味しかったですか？';
+    msg.className = 'result-msg';
+    hint.style.display = 'none';
+  }
+
+  overlay.classList.add('show');
+}
+
+function closeResult() {
+  document.getElementById('resultOverlay').classList.remove('show');
+  document.getElementById('confettiBox').innerHTML = '';
+}
+
+// ======== CONFETTI ========
+function fireConfetti() {
+  const box = document.getElementById('confettiBox');
+  box.innerHTML = '';
+  const colors = ['#c9a84c', '#f0d878', '#ffd700', '#e74c3c', '#ff6b35', '#ffffff'];
+  const symbols = ['✨', '🌸', '🎉', '⭐', '🏮', '🍣', '🍱'];
+
+  for (let i = 0; i < 80; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.left = `${Math.random() * 100}%`;
+    el.style.top = '-20px';
+    el.style.animationDelay = `${Math.random() * 1.5}s`;
+    el.style.animationDuration = `${2 + Math.random() * 2}s`;
+
+    if (Math.random() > 0.7) {
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      el.style.background = 'none';
+      el.style.fontSize = `${10 + Math.random() * 6}px`;
+      el.style.width = 'auto';
+      el.style.height = 'auto';
+    } else {
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      const s = 5 + Math.random() * 8;
+      el.style.width = `${s}px`;
+      el.style.height = `${s}px`;
+      el.style.background = c;
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    }
+    box.appendChild(el);
+  }
+  setTimeout(() => { box.innerHTML = ''; }, 5000);
+}
+
+// ======== INIT ========
+document.getElementById('drawBtn').addEventListener('click', doDraw);
+document.getElementById('resultOverlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeResult();
+});
+
+updateUI();
+
+// Check date rollover every minute
+setInterval(() => {
+  const today = getToday();
+  if (state.date !== today) {
+    state = { date: today, draws: 0, kingClaimed: false };
+    saveState();
+    updateUI();
+  }
+}, 60000);
+</script>
+</body>
+</html>
